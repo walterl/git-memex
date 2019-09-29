@@ -10,7 +10,11 @@ e_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }
 e_error()    { echo -e " \033[1;31m✖\033[0m  $@"; }
 e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
 e_info()     { echo -e " \033[1;34mⓘ\033[0m  $@"; }
-e_debug()    { [ -n "${GMX_DEBUG}" ] && echo -e " \033[1;33mﴫ\033[0m  $@"; }
+e_debug() {
+	if [ -n "${GMX_DEBUG}" ]; then
+		echo -e " \033[1;33mﴫ\033[0m  $@"
+	fi
+}
 
 check_gmx_dir_initialized() {
 	[ -d ${GMX_DIR:-${PWD}}/.git ] && return 0
