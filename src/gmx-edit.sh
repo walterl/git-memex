@@ -5,7 +5,7 @@ source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options] [--] <filename>"
+	e_info "Usage: $(basename $0) [options] <filename>"
 	e_info
 	e_info "Edit an existing git-memex database file."
 	e_info "The file's changed content will be automatically be expanded, and the file name updated based on the expanded content."
@@ -19,26 +19,22 @@ usage() {
 ### PARSE COMMAND-LINE ARGS ###
 review_changes=
 
-while getopts ":hvr" opt
+while getopts ":rhv" opt
 do
-  case $opt in
-	r)
-		review_changes=1
-		;;
-	h)
-		usage
-		exit 0
-		;;
-	v)
-		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
-		exit 0
-		;;
-	*)
-		e_error "Option does not exist: $OPTARG";
-		usage
-		exit 1
-		;;
-  esac
+	case $opt in
+		r)	review_changes=1
+			;;
+		h)	usage
+			exit 0
+			;;
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+			exit 0
+			;;
+		*)	usage
+			e_error "Option does not exist: $OPTARG"
+			exit 1
+			;;
+	esac
 done
 shift $(($OPTIND-1))
 

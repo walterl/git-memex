@@ -5,7 +5,7 @@ source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options] [--]"
+	e_info "Usage: $(basename $0) [options]"
 	e_info
 	e_info "Commit all outstanding changes."
 	e_info
@@ -18,28 +18,30 @@ usage() {
 ### PARSE COMMAND-LINE ARGS ###
 review_changes=
 
-while getopts ":hvr" opt
+while getopts ":rhv" opt
 do
-  case $opt in
-	r)
-		review_changes=1
-		;;
-	h)
-		usage
-		exit 0
-		;;
-	v)
-		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
-		exit 0
-		;;
-	*)
-		e_error "Option does not exist: $OPTARG";
-		usage
-		exit 1
-		;;
-  esac
+	case $opt in
+		r)	review_changes=1
+			;;
+		h)	usage
+			exit 0
+			;;
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+			exit 0
+			;;
+		*)	usage
+			e_error "Option does not exist: $OPTARG"
+			exit 1
+			;;
+	esac
 done
 shift $(($OPTIND-1))
+
+if [ $# -gt 0 ]; then
+	usage
+	e_error "Unexpected arguments: $@"
+	exit 1
+fi
 ### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###

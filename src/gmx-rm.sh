@@ -17,21 +17,18 @@ usage() {
 ### PARSE COMMAND-LINE ARGS ###
 while getopts ":hv" opt
 do
-  case $opt in
-	h)
-		usage
-		exit 0
-		;;
-	v)
-		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
-		exit 0
-		;;
-	*)
-		e_error "Option does not exist: $OPTARG";
-		usage
-		exit 1
-		;;
-  esac
+	case $opt in
+		h)	usage
+			exit 0
+			;;
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+			exit 0
+			;;
+		*)	usage
+			e_error "Option does not exist: $OPTARG"
+			exit 1
+			;;
+	esac
 done
 shift $(($OPTIND-1))
 

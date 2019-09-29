@@ -5,7 +5,7 @@ source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options] [--]"
+	e_info "Usage: $(basename $0) [options]"
 	e_info
 	e_info "Add a new file to your git-memex database."
 	e_info
@@ -20,31 +20,32 @@ usage() {
 output_dir=
 review_changes=
 
-while getopts ":hvrd:" opt
+while getopts ":rd:hv" opt
 do
-  case $opt in
-	d)
-		output_dir=$OPTARG
-		;;
-	r)
-		review_changes=1
-		;;
-	h)
-		usage
-		exit 0
-		;;
-	v)
-		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
-		exit 0
-		;;
-	*)
-		e_error "Option does not exist: $OPTARG";
-		usage
-		exit 1
-		;;
-  esac
+	case $opt in
+		d)	output_dir=$OPTARG
+			;;
+		r)	review_changes=1
+			;;
+		h)	usage
+			exit 0
+			;;
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+			exit 0
+			;;
+		*)	usage
+			e_error "Option does not exist: $OPTARG"
+			exit 1
+			;;
+	esac
 done
 shift $(($OPTIND-1))
+
+if [ $# -gt 0 ]; then
+	usage
+	e_error "Unexpected arguments: $@"
+	exit 1
+fi
 ### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###
