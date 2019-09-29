@@ -6,11 +6,11 @@ source $(dirname $0)/gmx-common.sh
 
 ### FUNCTIONS ###
 expand_content() {
-	${HOME}/.virtualenvs/unmind/bin/python3 ${SCRIPT_DIR}/expand_content.py $@
+	${PYTHON_CMD} ${PY_SCRIPT_DIR}/expand_content.py $@
 }
 
 extrapolate_filename() {
-	filename=$(${HOME}/.virtualenvs/unmind/bin/python3 ${SCRIPT_DIR}/filename_from_content.py $@)
+	filename=$(${PYTHON_CMD} ${PY_SCRIPT_DIR}/filename_from_content.py $@)
 
 	if [ -f "${filename}" ]; then
 		extension="${filename##*.}"
@@ -52,6 +52,6 @@ e_debug "Adding item: ${filename}"
 cp "${tmp_file}" "${GMX_DIR}/${filename}"
 rm "${tmp_file}"
 rungit add "${GMX_DIR}/${filename}"
-rungit commit --quiet -m "Added file ${filename}"
+rungit commit --quiet -m "Added file: ${filename}"
 
-e_success "Added ${filename}"
+e_success "New file: ${filename}"

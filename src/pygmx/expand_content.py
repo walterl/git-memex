@@ -2,7 +2,7 @@
 
 import sys
 
-from unmind.data.markdown.preprocessors import preprocess as md_preproc
+from markdown_proc import preprocess as md_preproc
 
 
 def expand_file_contents(contents):

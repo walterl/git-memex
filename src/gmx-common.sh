@@ -49,6 +49,8 @@ ITEM_EDITOR=$(
 )
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
+PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
+PYTHON_CMD="${SCRIPT_DIR}/python"
 RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
 ### /ENV ###
 
@@ -72,3 +74,8 @@ hilight() {
 		cat ${arg}
 	fi
 }
+
+if ! ${PYTHON_CMD} --version &> /dev/null; then
+	e_error "Python environment not configured. See ${PYTHON_CMD} for further instructions."
+	exit 127
+fi
