@@ -2,6 +2,30 @@
 
 `git-memex` is a simple, file-based, git backed personal knowledge base.
 
+
+## Development status
+
+Development is currently in **Phase 1: Proof of concept**
+
+See _Development Roadmap_ below for more information.
+
+### TODO
+* [X] Add `gmx-init` command.
+* [X] Add `gmx-add` command.
+  * Use Markdown expansion and title extraction code from Unmind.
+* [ ] Add `gmx-mv` command to allow moving/renaming of files.
+* [ ] Add `gmx-rm` command to removal of files.
+* [ ] Add `gmx-edit` command to manage editing of managed files.
+  * Auto-expand and commit changes.
+* [ ] Add `gmx-commit` command to commit any manual changes.
+  * Should be safe to run, even if there weren't any changes.
+  * Should accept an optional commit message as argument.
+* [ ] `gmx-add`: Add `-r` switch for reviewing changes (if any) of content expansion.
+* [ ] Migrate required Unmind code to git-memex repo.
+  * Figure out how to most easily handle Python dependencies. Probably just
+    throw all files into the same directory.
+
+
 ## Target workflow
 
 ### Initializing directory for git-memex
