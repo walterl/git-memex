@@ -18,7 +18,7 @@ See _Development Roadmap_ below for more information.
 * [ ] Add `gmx-commit` command to commit any manual changes.
   * Should be safe to run, even if there weren't any changes.
   * Should accept an optional commit message as argument.
-* [ ] `gmx-add`: Add `-d` switch to specify directory for new entry.
+* [X] `gmx-add`: Add `-d` switch to specify directory for new entry.
 * [X] `gmx-add`: Add `-r` switch for reviewing changes (if any) of content expansion.
 * [X] `gmx-edit`: Add `-r` switch for reviewing changes (if any) of content expansion.
 * [X] Migrate required Unmind code to git-memex repo.

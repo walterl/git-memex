@@ -10,17 +10,22 @@ usage() {
 	e_info "Add a new file to your git-memex database."
 	e_info
 	e_info "Options:"
-	e_info "-r    Review expanded content before committing."
-	e_info "-h    Display this message"
-	e_info "-v    Display script version"
+	e_info "-d <dir>   Directory in which to create the new file."
+	e_info "-r         Review expanded content before committing."
+	e_info "-h         Display this message"
+	e_info "-v         Display script version"
 }
 
 ### PARSE COMMAND-LINE ARGS ###
+output_dir=
 review_changes=
 
-while getopts ":hvr" opt
+while getopts ":hvrd:" opt
 do
   case $opt in
+	d)
+		output_dir=$OPTARG
+		;;
 	r)
 		review_changes=1
 		;;
@@ -48,6 +53,11 @@ if ! check_gmx_dir_initialized; then
 	exit 1
 fi
 
+if [ -n "${output_dir}" ]; then
+	e_debug "Creating output directory: ${GMX_DIR}/${output_dir}"
+	mkdir -p "${GMX_DIR}/${output_dir}" || true
+fi
+
 tmp_file=$(make_temp_file ".md")
 e_debug "Temp add file: ${tmp_file}"
 
@@ -64,7 +74,10 @@ if [ -n review_changes ]; then
 fi
 
 filename=$(compute_filename "${tmp_file}")
-filename=$(get_unique_filename "${filename}")
+if [ -n "${output_dir}" ]; then
+	filename="${output_dir}/${filename}"
+fi
+filename=$(get_unique_filename "${filename}" "${output_dir}")
 
 e_debug "Adding item: ${filename}"
 
