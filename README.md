@@ -13,7 +13,7 @@ See _Development Roadmap_ below for more information.
 * [X] Add `gmx-init` command.
 * [X] Add `gmx-add` command.
   * Use Markdown expansion and title extraction code from Unmind.
-* [ ] Add `gmx-mv` command to allow moving/renaming of files.
+* [X] Add `gmx-mv` command to allow moving/renaming of files.
 * [X] Add `gmx-rm` command to removal of files.
 * [ ] Add `gmx-edit` command to manage editing of managed files.
   * Auto-expand and commit changes.
