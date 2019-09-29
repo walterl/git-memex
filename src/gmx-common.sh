@@ -36,7 +36,6 @@ make_temp_file() {
 
 ### ENV ###
 GMX_DIR=$PWD
-GIT="git -C ${GMX_DIR}"
 ITEM_EDITOR=$(
 	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
 	[ -n "${editor}" ] && echo ${editor} && return
