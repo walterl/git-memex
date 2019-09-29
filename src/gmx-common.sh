@@ -84,6 +84,7 @@ make_temp_file() {
 ### /UTILITY FUNCTIONS ###
 
 ### ENV ###
+GMX_VERSION="0.1.0"
 GMX_DIR=$PWD
 TEXT_EDITOR=$(find_text_editor)
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
