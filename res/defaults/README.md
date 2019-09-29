@@ -4,6 +4,8 @@ This is the root of your git-memex knowledge base.
 
 It is a normal git repository, with some scripts to make operations easier.
 
+You are welcome to delete this `README.md` file: `gmx-rm README.md`
+
 ## Usage
 
 To use the database, `cd` to this directory and use any of the following
