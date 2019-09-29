@@ -12,19 +12,16 @@ See _Development Roadmap_ below for more information.
 ### TODO
 * [X] Add `gmx-init` command.
 * [X] Add `gmx-add` command.
-  * Use Markdown expansion and title extraction code from Unmind.
 * [X] Add `gmx-mv` command to allow moving/renaming of files.
 * [X] Add `gmx-rm` command to removal of files.
-* [ ] Add `gmx-edit` command to manage editing of managed files.
-  * Auto-expand and commit changes.
+* [X] Add `gmx-edit` command to manage editing of managed files.
 * [ ] Add `gmx-commit` command to commit any manual changes.
   * Should be safe to run, even if there weren't any changes.
   * Should accept an optional commit message as argument.
 * [ ] `gmx-add`: Add `-d` switch to specify directory for new entry.
 * [ ] `gmx-add`: Add `-r` switch for reviewing changes (if any) of content expansion.
+* [ ] `gmx-edit`: Add `-r` switch for reviewing changes (if any) of content expansion.
 * [X] Migrate required Unmind code to git-memex repo.
-  * Figure out how to most easily handle Python dependencies. Probably just
-    throw all files into the same directory.
 
 
 ## Target workflow
