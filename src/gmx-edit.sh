@@ -4,15 +4,44 @@ set -e
 source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
-### USAGE ###
-if [[ $# != 1 || $1 == "-h" || $1 == "--help" ]]; then
-	e_info "Usage: $(basename $0) <filename>"
+usage() {
+	e_info "Usage: $(basename $0) [options] [--] <filename>"
 	e_info
-	e_info "Edit an existing file."
+	e_info "Edit an existing git-memex database file."
 	e_info "The file's changed content will be automatically be expanded, and the file name updated based on the expanded content."
-	exit 0
+	e_info
+	e_info "Options:"
+	e_info "-h    Display this message"
+	e_info "-v    Display script version"
+}
+
+### PARSE COMMAND-LINE ARGS ###
+while getopts ":hv" opt
+do
+  case $opt in
+	h)
+		usage
+		exit 0
+		;;
+	v)
+		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		exit 0
+		;;
+	*)
+		e_error "Option does not exist: $OPTARG";
+		usage
+		exit 1
+		;;
+  esac
+done
+shift $(($OPTIND-1))
+
+if [ $# -ne 1 ]; then
+	usage
+	e_error "Exactly one file name is required."
+	exit 1
 fi
-### /USAGE ###
+### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###
 filename=$1

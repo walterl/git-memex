@@ -4,6 +4,44 @@ set -e
 source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
+usage() {
+	e_info "Usage: $(basename $0) <filename> [<filename> ...]"
+	e_info
+	e_info "Deletes specified files from the git-memex database."
+	e_info
+	e_info "Options:"
+	e_info "-h    Display this message"
+	e_info "-v    Display script version"
+}
+
+### PARSE COMMAND-LINE ARGS ###
+while getopts ":hv" opt
+do
+  case $opt in
+	h)
+		usage
+		exit 0
+		;;
+	v)
+		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		exit 0
+		;;
+	*)
+		e_error "Option does not exist: $OPTARG";
+		usage
+		exit 1
+		;;
+  esac
+done
+shift $(($OPTIND-1))
+
+if [ $# -lt 1 ]; then
+	usage
+	e_error "No files specified."
+	exit 1
+fi
+### /PARSE COMMAND-LINE ARGS ###
+
 ### FUNCTIONS ###
 delete_file() {
 	set +e
@@ -20,13 +58,6 @@ delete_file() {
 ### /FUNCTIONS ###
 
 ### MAIN ###
-if [[ $# == 0 || $1 == "-h" || $1 == "--help" ]]; then
-	e_info "Usage: $(basename $0) <filename> [<filename> ...]"
-	e_info
-	e_info "Deletes specified files from the git-memex database."
-	exit 0
-fi
-
 for filename in "$@"; do
 	check_file_exists "${filename}" || exit 1
 done

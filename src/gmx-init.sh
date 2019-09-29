@@ -4,6 +4,44 @@ set -e
 source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
+usage() {
+	e_info "Usage: $(basename $0) [--]"
+	e_info
+	e_info "Initialize the current directory for use with git-memex."
+	e_info
+	e_info "Options:"
+	e_info "-h    Display this message"
+	e_info "-v    Display script version"
+}
+
+### PARSE COMMAND-LINE ARGS ###
+while getopts ":hv" opt
+do
+  case $opt in
+	h)
+		usage
+		exit 0
+		;;
+	v)
+		e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		exit 0
+		;;
+	*)
+		e_error "Option does not exist: $OPTARG";
+		usage
+		exit 1
+		;;
+  esac
+done
+shift $(($OPTIND-1))
+
+if [ $# -gt 0 ]; then
+	usage
+	e_error "Unexpected arguments: $@"
+	exit 1
+fi
+### /PARSE COMMAND-LINE ARGS ###
+
 ### MAIN ###
 if check_gmx_dir_initialized; then
 	e_error "Already a git repository: ${GMX_DIR}"
