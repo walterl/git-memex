@@ -4,28 +4,6 @@ set -e
 source $(dirname $0)/gmx-common.sh
 ### /BOOTSTRAP ###
 
-### FUNCTIONS ###
-expand_content() {
-	${PYTHON_CMD} ${PY_SCRIPT_DIR}/expand_content.py $@
-}
-
-extrapolate_filename() {
-	filename=$(${PYTHON_CMD} ${PY_SCRIPT_DIR}/filename_from_content.py $@)
-
-	if [ -f "${filename}" ]; then
-		extension="${filename##*.}"
-		base_filename="${filename%.*}"
-		i=1
-		while [ -f "${base_filename}__${i}.${extension}" ]; do
-			i=$((i+1))
-		done
-		filename="${base_filename}__${i}.${extension}"
-	fi
-
-	echo ${filename}
-}
-### /FUNCTIONS ###
-
 ### MAIN ###
 if ! check_gmx_dir_initialized; then
 	e_error "git-memex not initialized. Run gmx-init first."
@@ -41,9 +19,10 @@ if [[ $(wc -c "${tmp_file}" | cut -d' ' -f 1) == "0" ]]; then
 	exit 1
 fi
 
-expand_content "${tmp_file}"
+expand_file_content "${tmp_file}"
 
-filename=$(extrapolate_filename "${tmp_file}")
+filename=$(compute_filename "${tmp_file}")
+filename=$(get_unique_filename "${filename}")
 
 e_debug "Adding item: ${filename}"
 

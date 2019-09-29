@@ -30,6 +30,30 @@ check_gmx_dir_initialized() {
 	return 1
 }
 
+expand_file_content() {
+	${PYTHON_CMD} ${PY_SCRIPT_DIR}/expand_content.py "$@"
+}
+
+compute_filename() {
+	${PYTHON_CMD} ${PY_SCRIPT_DIR}/filename_from_content.py "$@"
+}
+
+get_unique_filename() {
+	filename=$1
+
+	if [ -f "${filename}" ]; then
+		extension="${filename##*.}"
+		base_filename="${filename%.*}"
+		i=1
+		while [ -f "${base_filename}__${i}.${extension}" ]; do
+			i=$((i+1))
+		done
+		filename="${base_filename}__${i}.${extension}"
+	fi
+
+	echo ${filename}
+}
+
 find_text_editor() {
 	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
 	[ -n "${editor}" ] && echo ${editor} && return
