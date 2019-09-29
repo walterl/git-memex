@@ -69,7 +69,7 @@ fi
 
 expand_file_content "${tmp_file}"
 
-if [ -n review_changes ]; then
+if [ -n "${review_changes}" ]; then
 	${TEXT_EDITOR} "${tmp_file}"
 fi
 

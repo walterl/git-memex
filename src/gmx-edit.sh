@@ -62,7 +62,7 @@ if [ -z "$(rungit status -s "${filename}")" ]; then
 	exit 0
 fi
 
-if [ -n review_changes ]; then
+if [ -n "${review_changes}" ]; then
 	${TEXT_EDITOR} "${filename}"
 fi
 
