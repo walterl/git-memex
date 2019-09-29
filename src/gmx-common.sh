@@ -21,6 +21,18 @@ check_gmx_dir_initialized() {
 	return 1
 }
 
+find_text_editor() {
+	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
+	[ -n "${editor}" ] && echo ${editor} && return
+
+	for editor in sensible-editor vim vi nano; do
+		command -v ${editor} > /dev/null && echo ${editor} && return
+	done
+
+	e_error "Unable to find a text editor. Set \$EDITOR to your editor command."
+	exit 1
+}
+
 get_temp_dir() {
 	tmpdir=$TMPDIR
 
@@ -40,17 +52,7 @@ make_temp_file() {
 
 ### ENV ###
 GMX_DIR=$PWD
-ITEM_EDITOR=$(
-	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
-	[ -n "${editor}" ] && echo ${editor} && return
-
-	for editor in sensible-editor vim vi nano; do
-		command -v ${editor} > /dev/null && echo ${editor} && return
-	done
-
-	e_error "Unable to find a text editor. Set \$EDITOR to your editor command."
-	exit 1
-)
+TEXT_EDITOR=$(find_text_editor)
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
 PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
@@ -60,7 +62,7 @@ RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
 
 e_debug "Running from ${SCRIPT_DIR}"
 e_debug "Initializing git-memex in ${GMX_DIR}"
-e_debug "Using editor: ${ITEM_EDITOR}"
+e_debug "Using editor: ${TEXT_EDITOR}"
 
 rungit() {
 	git -C ${GMX_DIR} "$@"

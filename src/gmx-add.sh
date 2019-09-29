@@ -35,7 +35,7 @@ fi
 tmp_file=$(make_temp_file ".md")
 e_debug "Temp add file: ${tmp_file}"
 
-$ITEM_EDITOR "${tmp_file}"
+${TEXT_EDITOR} "${tmp_file}"
 if [[ $(wc -c "${tmp_file}" | cut -d' ' -f 1) == "0" ]]; then
 	e_error "Nothing to add. Aborting."
 	exit 1
