@@ -11,14 +11,20 @@ usage() {
 	e_info "The file's changed content will be automatically be expanded, and the file name updated based on the expanded content."
 	e_info
 	e_info "Options:"
+	e_info "-r    Review expanded content before committing."
 	e_info "-h    Display this message"
 	e_info "-v    Display script version"
 }
 
 ### PARSE COMMAND-LINE ARGS ###
-while getopts ":hv" opt
+review_changes=
+
+while getopts ":hvr" opt
 do
   case $opt in
+	r)
+		review_changes=1
+		;;
 	h)
 		usage
 		exit 0
@@ -54,6 +60,10 @@ expand_file_content "${filename}"
 if [ -z "$(rungit status -s "${filename}")" ]; then
 	e_arrow "Nothing changed."
 	exit 0
+fi
+
+if [ -n review_changes ]; then
+	${TEXT_EDITOR} "${filename}"
 fi
 
 new_filename=$(compute_filename "${filename}")

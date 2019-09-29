@@ -10,14 +10,20 @@ usage() {
 	e_info "Add a new file to your git-memex database."
 	e_info
 	e_info "Options:"
+	e_info "-r    Review expanded content before committing."
 	e_info "-h    Display this message"
 	e_info "-v    Display script version"
 }
 
 ### PARSE COMMAND-LINE ARGS ###
-while getopts ":hv" opt
+review_changes=
+
+while getopts ":hvr" opt
 do
   case $opt in
+	r)
+		review_changes=1
+		;;
 	h)
 		usage
 		exit 0
@@ -52,6 +58,10 @@ if [[ $(wc -c "${tmp_file}" | cut -d' ' -f 1) == "0" ]]; then
 fi
 
 expand_file_content "${tmp_file}"
+
+if [ -n review_changes ]; then
+	${TEXT_EDITOR} "${tmp_file}"
+fi
 
 filename=$(compute_filename "${tmp_file}")
 filename=$(get_unique_filename "${filename}")
