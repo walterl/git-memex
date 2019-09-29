@@ -17,4 +17,4 @@
 # That environment you just created should be at `$HOME/.virtualenvs/pygmx/`,
 # as in the command below:
 
-${HOME}/.virtualenvs/pygmx/bin/python3 $@
+${HOME}/.virtualenvs/pygmx/bin/python3 "$@"
