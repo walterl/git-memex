@@ -16,6 +16,15 @@ e_debug() {
 	fi
 }
 
+# Usage: check_file_exists "${filename}" || exit 1
+check_file_exists() {
+	filename="$1"
+	if [ ! -f "${filename}" ]; then
+		e_error "No such file: ${filename}";
+		return 1
+	fi
+}
+
 check_gmx_dir_initialized() {
 	[ -d ${GMX_DIR:-${PWD}}/.git ] && return 0
 	return 1
