@@ -54,9 +54,9 @@ if ! check_gmx_dir_initialized; then
 	exit 1
 fi
 
-if [ -n "${output_dir}" ]; then
+if [[ -n "${output_dir}" && ! -d "${GMX_DIR}/${output_dir}" ]]; then
 	e_debug "Creating output directory: ${GMX_DIR}/${output_dir}"
-	mkdir -p "${GMX_DIR}/${output_dir}" || true
+	mkdir -p "${GMX_DIR}/${output_dir}"
 fi
 
 tmp_file=$(make_temp_file ".md" "${output_dir}")
