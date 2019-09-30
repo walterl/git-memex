@@ -65,7 +65,7 @@ fi
 
 new_rel_filename=$(compute_filename "${rel_filename}")
 containing_dir=$(dirname "${rel_filename}")
-if [ -n "${containing_dir}" ]; then
+if [[ -n "${containing_dir}" && "${containing_dir}" != "." ]]; then
 	new_rel_filename="${containing_dir}/${new_rel_filename}"
 fi
 new_filename="${GMX_DIR}/${new_rel_filename}"
