@@ -52,4 +52,4 @@ rungit commit -m 'Initial commit with default README'
 echo
 e_success "Done."
 echo
-cat README.md | hilight
+cat "${GMX_DIR}/README.md" | hilight

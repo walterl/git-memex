@@ -42,7 +42,7 @@ fi
 ### FUNCTIONS ###
 delete_file() {
 	set +e
-	gitrm_output=$(rungit rm --quiet "${filename}" 2>&1)
+	gitrm_output=$(rungit rm --quiet "${GMX_DIR}/${filename}" 2>&1)
 	err_code=$?
 	if [[ "0" != "${err_code}" ]]; then
 		e_error "Failed to delete ${filename}: ${gitrm_output}"
@@ -56,11 +56,12 @@ delete_file() {
 
 ### MAIN ###
 for filename in "$@"; do
+	filename="${GMX_DIR}/${filename#"${GMX_DIR}/"}"
 	check_file_exists "${filename}" || exit 1
 done
 
 for filename in "$@"; do
-	delete_file "${filename}"
+	delete_file "${filename#"${GMX_DIR}/"}"
 done
 
 rungit commit --quiet -m "Deleted $# files"

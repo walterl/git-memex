@@ -46,7 +46,8 @@ fi
 ### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###
-filename=$1
+rel_filename=${1#"${GMX_DIR}/"}
+filename="${GMX_DIR}/${rel_filename}"
 
 check_file_exists "${filename}" || exit 1
 ${TEXT_EDITOR} "${filename}"
@@ -62,20 +63,27 @@ if [ -n "${review_changes}" ]; then
 	${TEXT_EDITOR} "${filename}"
 fi
 
-new_filename=$(compute_filename "${filename}")
+new_rel_filename=$(compute_filename "${rel_filename}")
+containing_dir=$(dirname "${rel_filename}")
+if [ -n "${containing_dir}" ]; then
+	new_rel_filename="${containing_dir}/${new_rel_filename}"
+fi
+new_filename="${GMX_DIR}/${new_rel_filename}"
 
 extended_commit_msg=
 output_old_filename=
 if [[ "${new_filename}" != "${filename}" ]]; then
+	e_debug "Renaming \"${rel_filename}\" → \"${new_rel_filename}\""
 	cp "${filename}" "${new_filename}"
 	rungit rm --quiet --force "${filename}"
-	extended_commit_msg="\n\nOld file name: ${filename}"
-	output_old_filename=" (was ${filename})"
+	extended_commit_msg="\n\nOld file name: ${rel_filename}"
+	output_old_filename=" (was ${rel_filename})"
 
 	filename=${new_filename}
+	rel_filename=${new_rel_filename}
 fi
 
 rungit add "${filename}"
-rungit commit --quiet -m "Changed file: ${filename}$(echo -e ${extended_commit_msg})"
+rungit commit --quiet -m "Changed file: ${rel_filename}$(echo -e ${extended_commit_msg})"
 
-e_success "Updated file: ${filename}${output_old_filename}"
+e_success "Updated file: ${rel_filename}${output_old_filename}"

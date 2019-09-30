@@ -78,15 +78,16 @@ filename=$(compute_filename "${tmp_file}")
 if [ -n "${output_dir}" ]; then
 	filename="${output_dir}/${filename}"
 fi
-filename=$(get_unique_filename "${filename}" "${output_dir}")
+filename=$(get_unique_filename "${GMX_DIR}/${filename}")
+rel_filename=${filename#"${GMX_DIR}/"}
 
-e_debug "Adding item: ${filename}"
+e_debug "Adding item: ${rel_filename}"
 
 [ -z "${filename}" ] && e_error "Unable to determine file name for new item. Aborting." && exit 1
 
-cp "${tmp_file}" "${GMX_DIR}/${filename}"
+cp "${tmp_file}" "${filename}"
 rm "${tmp_file}"
-rungit add "${GMX_DIR}/${filename}"
-rungit commit --quiet -m "Added file: ${filename}"
+rungit add "${filename}"
+rungit commit --quiet -m "Added file: ${rel_filename}"
 
-e_success "New file: ${filename}"
+e_success "New file: ${rel_filename}"
