@@ -66,20 +66,8 @@ find_text_editor() {
 	exit 1
 }
 
-get_temp_dir() {
-	tmpdir=$TMPDIR
-
-	[[ -z ${tmpdir} && -n ${XDG_RUNTIME_DIR} ]] && tmpdir=${XDG_RUNTIME_DIR}
-	[ -z ${tmpdir} ] && tmpdir=/tmp
-
-	tmpdir="${tmpdir}/gmx"
-	[ ! -d ${tmpdir} ] && mkdir -p ${tmpdir} && chown ${USER}: ${tmpdir} && chmod 700 ${tmpdir}
-
-	echo ${tmpdir}
-}
-
 make_temp_file() {
-	mktemp --suffix=$1 --tmpdir=$(get_temp_dir) "gmx-add.XXXXXXXXXX"
+	mktemp --suffix=$1 --tmpdir="${GMX_DIR}/$2" "new-file.XXXXXXXXXX"
 }
 ### /UTILITY FUNCTIONS ###
 

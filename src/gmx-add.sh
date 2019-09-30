@@ -59,7 +59,7 @@ if [ -n "${output_dir}" ]; then
 	mkdir -p "${GMX_DIR}/${output_dir}" || true
 fi
 
-tmp_file=$(make_temp_file ".md")
+tmp_file=$(make_temp_file ".md" "${output_dir}")
 e_debug "Temp add file: ${tmp_file}"
 
 ${TEXT_EDITOR} "${tmp_file}"
