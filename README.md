@@ -3,6 +3,33 @@
 `git-memex` is a simple, file-based, git backed personal knowledge base.
 
 
+## Installation
+
+All commands below should be executed from the repository root.
+
+### Symlink scripts into `$PATH`
+Symlink all `src/gmx-*.sh` files into a directory in your `$PATH`. For example,
+using `$HOME/.local/bin/`, run the following from the repository root:
+
+```bash
+for i in $PWD/src/gmx-*.sh; do
+  ln -s "$i" $HOME/.local/bin/$(basename "$i" .sh)
+done
+```
+
+## Install Python environment
+
+As per the instructions from `src/python`:
+
+```bash
+mkvirtalenv -p $(which python3) pygmx
+pip install beautifulsoup4==4.8.0 html2text==2019.9.26 lxml==4.4.1 Markdown==3.1.1 requests==2.22.0
+```
+
+If you want to use a different Python environment, please update `src/python`
+accordingly.
+
+
 ## Development status
 
 Development is currently in **Phase 1: Proof of concept**
