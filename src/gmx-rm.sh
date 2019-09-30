@@ -41,6 +41,7 @@ fi
 
 ### FUNCTIONS ###
 delete_file() {
+	filename=$1
 	set +e
 	gitrm_output=$(rungit rm --quiet "${GMX_DIR}/${filename}" 2>&1)
 	err_code=$?
