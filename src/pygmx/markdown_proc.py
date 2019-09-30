@@ -22,7 +22,7 @@ RX_WEBURL = re.compile(RX_WEBURL_STR)
 
 
 def strip(content):
-    return content.strip()
+    return content.strip() + '\n'
 
 
 def urls_to_markdown_links(content):
