@@ -1,6 +1,6 @@
 # `git-memex` - Your git-based memory extension
 
-`git-memex` is a simple, file-based, git backed personal knowledge base.
+git-memex is a simple, file-based, git backed personal knowledge base.
 
 
 ## Installation
@@ -155,6 +155,7 @@ See _Development Roadmap_ below for more information.
 * [X] `gmx-edit`: Add `-r` switch for reviewing changes (if any) of content expansion.
 * [X] Migrate required Unmind code to git-memex repo.
 * [ ] Test implementation for a while
+* [ ] Add utility to convert rich text (HTML) on the clipboard, to Markdown text.
 
 
 ## Development roadmap
