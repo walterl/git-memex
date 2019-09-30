@@ -65,6 +65,7 @@ e_debug "Temp add file: ${tmp_file}"
 ${TEXT_EDITOR} "${tmp_file}"
 if [[ $(wc -c "${tmp_file}" | cut -d' ' -f 1) == "0" ]]; then
 	e_error "Nothing to add. Aborting."
+	rm "${tmp_file}"
 	exit 1
 fi
 
