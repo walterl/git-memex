@@ -95,7 +95,7 @@ RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
 ### /ENV ###
 
 e_debug "Running from ${SCRIPT_DIR}"
-e_debug "Initializing git-memex in ${GMX_DIR}"
+e_debug "Using git-memex repository in ${GMX_DIR}"
 e_debug "Using editor: ${TEXT_EDITOR}"
 
 rungit() {
