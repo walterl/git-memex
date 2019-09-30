@@ -16,6 +16,40 @@ e_debug() {
 	fi
 }
 
+find_text_editor() {
+	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
+	[ -n "${editor}" ] && echo ${editor} && return
+
+	for editor in sensible-editor vim vi nano; do
+		command -v ${editor} > /dev/null && echo ${editor} && return
+	done
+
+	e_error "Unable to find a text editor. Set \$EDITOR to your editor command."
+	exit 1
+}
+### /UTILITY FUNCTIONS ###
+
+### ENV ###
+GMX_VERSION="0.1.0"
+GMX_DIR=$PWD
+TEXT_EDITOR=$(find_text_editor)
+HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
+SCRIPT_DIR=$(dirname $(readlink -f "$0"))
+PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
+PYTHON_CMD="${SCRIPT_DIR}/python"
+RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
+### /ENV ###
+
+### MAIN LIBRARY ###
+e_debug "Running from ${SCRIPT_DIR}"
+e_debug "Using git-memex repository in ${GMX_DIR}"
+e_debug "Using editor: ${TEXT_EDITOR}"
+
+if ! ${PYTHON_CMD} --version &> /dev/null; then
+	e_error "Python environment not configured. See ${PYTHON_CMD} for further instructions."
+	exit 127
+fi
+
 # Usage: check_file_exists "${filename}" || exit 1
 check_file_exists() {
 	filename="$1"
@@ -54,42 +88,6 @@ get_unique_filename() {
 	echo ${filename}
 }
 
-find_text_editor() {
-	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
-	[ -n "${editor}" ] && echo ${editor} && return
-
-	for editor in sensible-editor vim vi nano; do
-		command -v ${editor} > /dev/null && echo ${editor} && return
-	done
-
-	e_error "Unable to find a text editor. Set \$EDITOR to your editor command."
-	exit 1
-}
-
-make_temp_file() {
-	mktemp --suffix=$1 --tmpdir="${GMX_DIR}/$2" "new-file.XXXXXXXXXX"
-}
-### /UTILITY FUNCTIONS ###
-
-### ENV ###
-GMX_VERSION="0.1.0"
-GMX_DIR=$PWD
-TEXT_EDITOR=$(find_text_editor)
-HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
-SCRIPT_DIR=$(dirname $(readlink -f "$0"))
-PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
-PYTHON_CMD="${SCRIPT_DIR}/python"
-RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
-### /ENV ###
-
-e_debug "Running from ${SCRIPT_DIR}"
-e_debug "Using git-memex repository in ${GMX_DIR}"
-e_debug "Using editor: ${TEXT_EDITOR}"
-
-rungit() {
-	git -C ${GMX_DIR} "$@"
-}
-
 hilight() {
 	arg=$1
 	if [[ $arg == "-" ]]; then
@@ -103,7 +101,10 @@ hilight() {
 	fi
 }
 
-if ! ${PYTHON_CMD} --version &> /dev/null; then
-	e_error "Python environment not configured. See ${PYTHON_CMD} for further instructions."
-	exit 127
-fi
+make_temp_file() {
+	mktemp --suffix=$1 --tmpdir="${GMX_DIR}/$2" "new-file.XXXXXXXXXX"
+}
+
+rungit() {
+	git -C ${GMX_DIR} "$@"
+}
