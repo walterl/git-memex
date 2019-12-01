@@ -5,12 +5,12 @@ source $(dirname $(readlink -f $0))/gmx-common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options]"
+	e_info "Usage: $(basename $0) [options] [<dir>]"
 	e_info
 	e_info "Add a new file to your git-memex database."
 	e_info
 	e_info "Options:"
-	e_info "-d <dir>   Directory in which to create the new file."
+	e_info "<dir>      Directory in which to create the new file."
 	e_info "-r         Review expanded content before committing."
 	e_info "-h         Display this message"
 	e_info "-v         Display script version"
@@ -23,8 +23,6 @@ review_changes=
 while getopts ":rd:hv" opt
 do
 	case $opt in
-		d)	output_dir=$OPTARG
-			;;
 		r)	review_changes=1
 			;;
 		h)	usage
@@ -42,9 +40,7 @@ done
 shift $(($OPTIND-1))
 
 if [ $# -gt 0 ]; then
-	usage
-	e_error "Unexpected arguments: $@"
-	exit 1
+	output_dir=$1
 fi
 ### /PARSE COMMAND-LINE ARGS ###
 
