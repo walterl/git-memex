@@ -66,7 +66,7 @@ def title_from_content(content):
 
 def filename_from_content(content):
     filename = title_from_content(content)
-    filename = filename.replace('/', '-')
+    filename = filename.replace('/', '-').replace('|', '-')
     filename = re.sub(r'[\#\!]', '', filename)
     filename = re.sub(r'\s+', ' ', filename)
     filename = filename.rstrip('.')
