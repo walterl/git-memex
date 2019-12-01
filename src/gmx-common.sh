@@ -72,6 +72,12 @@ compute_filename() {
 	${PYTHON_CMD} ${PY_SCRIPT_DIR}/filename_from_content.py "$@"
 }
 
+ensure_dir_exists() {
+	dir=$1
+
+	[ -d ${dir} ] || mkdir -p ${dir}
+}
+
 get_unique_filename() {
 	filename=$1
 
