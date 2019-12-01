@@ -28,9 +28,14 @@ def strip(content):
 def urls_to_markdown_links(content):
     lines = []
     for line in content.split('\n'):
+        finalize_line = lambda l: l
+        if line.startswith('> '):
+            line = line[2:]
+            finalize_line = lambda l: '> {}'.format(l)
+
         if line.startswith('    '):
             # Skip blockquoted lines
-            lines.append(line)
+            lines.append(finalize_line(line))
             continue
 
         for match in reversed(list(RX_WEBURL.finditer(line))):
@@ -47,7 +52,8 @@ def urls_to_markdown_links(content):
             url = match.group()
             before, after = line[:match.start()], line[match.end():]
             line = '{}{}{}'.format(before, make_link(url), after)
-        lines.append(line)
+
+        lines.append(finalize_line(line))
     return '\n'.join(lines)
 
 
