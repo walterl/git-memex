@@ -46,6 +46,8 @@ dest=$2
 
 check_file_exists "${src}" || exit 1
 
+ensure_dir_exists $(dirname ${dest})
+
 rungit mv "${GMX_DIR}/${src}" "${GMX_DIR}/${dest}"
 rungit commit --quiet -m "Rename: ${src} → ${dest}"
 
