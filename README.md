@@ -22,7 +22,7 @@ done
 As per the instructions from `src/python`:
 
 ```bash
-mkvirtalenv -p $(which python3) pygmx
+mkvirtualenv -p $(which python3) pygmx
 pip install beautifulsoup4==4.8.0 html2text==2019.9.26 lxml==4.4.1 Markdown==3.1.1 requests==2.22.0
 ```
 
