@@ -44,7 +44,7 @@ fi
 src=$1
 dest=$2
 
-check_file_exists "${src}" || exit 1
+check_file_exists "${src}" || check_dir_exists "${src}" || exit 1
 
 ensure_dir_exists $(dirname ${dest})
 

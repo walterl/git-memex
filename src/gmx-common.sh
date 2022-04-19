@@ -59,6 +59,15 @@ check_file_exists() {
 	fi
 }
 
+# Usage: check_dir_exists "${dirname}" || exit 1
+check_dir_exists() {
+	dirname="$1"
+	if [ ! -d "${dirname}" ]; then
+		e_error "No such directory: ${dirname}";
+		return 1
+	fi
+}
+
 check_gmx_dir_initialized() {
 	[ -d ${GMX_DIR:-${PWD}}/.git ] && return 0
 	return 1
