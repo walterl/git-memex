@@ -25,6 +25,17 @@ def strip(content):
     return content.strip() + '\n'
 
 
+def line_url_is_link(line, start, end):
+    """Tests if the URL in `line` (from index `start` to `end`) is already a
+    Markdown link. Defaults to `False`.
+    """
+    try:
+        return (line[start - 1], line[end]) == ('(', ')') and \
+                line[start - 2] == ']' and '[' in line[:start - 2]
+    except IndexError:
+        return False
+
+
 def urls_to_markdown_links(content):
     lines = []
     for line in content.split('\n'):
@@ -40,15 +51,8 @@ def urls_to_markdown_links(content):
 
         for match in reversed(list(RX_WEBURL.finditer(line))):
             start, end = match.span()
-
-            try:
-                # Skip URLs that are probably Markdown links already.
-                if line[start - 1] == '(' and line[end] == ')' and \
-                        line[start - 2] == ']' and '[' in line[:start - 2]:
-                    continue
-            except IndexError:
-                pass
-
+            if line_url_is_link(line, start, end):
+                continue
             url = match.group()
             before, after = line[:match.start()], line[match.end():]
             line = '{}{}{}'.format(before, make_link(url), after)
