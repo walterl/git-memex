@@ -57,7 +57,7 @@ def title_from_content(content):
 
     if not title:
         lines = content.split('\n')
-        while not title:
+        while lines and not title:
             title = clean_title(lines.pop(0))
 
     log.debug('Title: {}'.format(title))
