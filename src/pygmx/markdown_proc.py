@@ -67,15 +67,11 @@ def preprocess(content):
     return content
 
 
-def make_link(url):
-    """Creates a Markdown link from the given URL.
-
-    The page's title is looked up and used as the link text. If that
-    fails, the link itself is used.
+def url_as_title(url):
+    """Tries to parse `url` in order to make a nicer looking representation of
+    it, as a title. Returns `url` if it cannot be parsed as a URL.
     """
-    title = get_title(fetch_url(url))
-
-    if not title:
+    try:
         parsed = urlparse(url)
         title = unquote(
             '{}{}{}'.format(parsed.netloc, parsed.path, parsed.query)
@@ -83,5 +79,17 @@ def make_link(url):
 
         if title.endswith('/') and not parsed.query:
             title = title.rstrip('/')
+    except ValueError:
+        # assume url parsing failed
+        title = url
+    return title
 
+
+def make_link(url):
+    """Creates a Markdown link from the given URL.
+
+    The page's title is looked up and used as the link text. If that
+    fails, the link itself is used.
+    """
+    title = get_title(fetch_url(url)) or url_as_title(url)
     return '[{}]({})'.format(title, url)
