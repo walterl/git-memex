@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx-common.sh
+source $(dirname $(readlink -f $0))/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
