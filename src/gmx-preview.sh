@@ -5,9 +5,9 @@ source $(dirname $(readlink -f $0))/gmx-common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options]"
+	e_info "Usage: $(basename $0) [options] <filename>"
 	e_info
-	e_info "Initialize the current directory for use with git-memex."
+	e_info "Preview first lines of specified file."
 	e_info
 	e_info "Options:"
 	e_info "-h    Display this message"
@@ -33,23 +33,14 @@ done
 shift $(($OPTIND-1))
 
 if [ $# -gt 0 ]; then
-	usage
-	e_error "Unexpected arguments: $@"
-	exit 1
+	filename=$1
 fi
 ### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###
-if check_gmx_dir_initialized; then
-	e_error "Already a git repository: ${GMX_DIR}"
-	exit 1
+mime_type=$(file -b --mime-type "$filename")
+if [[ $mime_type =~ ^text/ ]]; then
+	sed 30q "$filename" | hilight -
+else
+	echo "[Binary content]"
 fi
-
-rungit init
-cp ${RES_DIR}/defaults/{README.md,.ignore} ${GMX_DIR}/
-rungit add -f ${GMX_DIR}/{README.md,.ignore}
-rungit commit -m 'Initial commit with default README'
-echo
-e_success "Done."
-echo
-cat "${GMX_DIR}/README.md" | hilight

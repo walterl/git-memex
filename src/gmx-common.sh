@@ -33,6 +33,7 @@ find_text_editor() {
 GMX_VERSION="0.1.0"
 GMX_DIR=$PWD
 TEXT_EDITOR=$(find_text_editor)
+HAS_FZF=$(command -v fzf > /dev/null && echo 1)
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
 PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
@@ -110,7 +111,7 @@ hilight() {
 	fi
 
 	if [ -n ${HAS_PYGMENTIZE} ]; then
-		pygmentize -f console16m -l md ${arg}
+		pygmentize -f console256 -l md ${arg}
 	else
 		cat ${arg}
 	fi

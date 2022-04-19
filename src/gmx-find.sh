@@ -7,7 +7,7 @@ source $(dirname $(readlink -f $0))/gmx-common.sh
 usage() {
 	e_info "Usage: $(basename $0) [options]"
 	e_info
-	e_info "Initialize the current directory for use with git-memex."
+	e_info "Fuzzy find a file (with fzf) and open it in gmx-edit."
 	e_info
 	e_info "Options:"
 	e_info "-h    Display this message"
@@ -40,16 +40,9 @@ fi
 ### /PARSE COMMAND-LINE ARGS ###
 
 ### MAIN ###
-if check_gmx_dir_initialized; then
-	e_error "Already a git repository: ${GMX_DIR}"
-	exit 1
+if [ -z ${HAS_FZF} ]; then
+	e_error "fzf is required but not found."
 fi
 
-rungit init
-cp ${RES_DIR}/defaults/{README.md,.ignore} ${GMX_DIR}/
-rungit add -f ${GMX_DIR}/{README.md,.ignore}
-rungit commit -m 'Initial commit with default README'
-echo
-e_success "Done."
-echo
-cat "${GMX_DIR}/README.md" | hilight
+filename=$(fzf --preview="gmx-preview {}")
+[ -n "$filename" ] && gmx-edit "$filename"

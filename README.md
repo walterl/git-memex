@@ -104,11 +104,16 @@ manual changes you may desire.
 
 ### Searching for a file
 
+`gmx-find` is a wrapper around [`fzf`](https://github.com/junegunn/fzf), and
+will display a preview of the highlighted file.
+
 Since all data in a git-memex database are just text in normal files in a git
 repository, you can use any system utilities for searching for a specific item:
+
 * `grep`, `ag`, ...
 * `git ls-files`
-* While not implemented in git-memex, any full-text search engine can be used to index and search the repository contents.
+* While not implemented in git-memex, any full-text search engine can be used
+  to index and search the repository contents.
 
 ### Moving/renaming a file
 
@@ -186,6 +191,7 @@ A hybrid approach can leverage the best parts of different languages, for exampl
   * [ ] First pass: Use `grep`, `git grep`, `ag`, or anything else the user wants.
   * [ ] Second pass: Combine the good bits of the commands above into a
         `gmx-search` command.
-  * [ ] Third pass: Connect one some "good" grep program to `fzf`, and
+  * [X] Third pass: Connect one some "good" grep program to `fzf`, and
         output/edit selected file.
+    * `gmx-find`
   * [ ] Fourth pass: throw in a full-text search engine into the mix.
