@@ -9,7 +9,7 @@ from html2text import HTML2Text
 from markdown import Markdown as OrigMarkdown
 from markdown.serializers import to_xhtml_string
 
-from html_proc import get_title as get_html_title
+from libgmx import get_title as get_html_title
 
 log = logging.getLogger(__name__)
 

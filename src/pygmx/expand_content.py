@@ -2,7 +2,7 @@
 
 import sys
 
-from markdown_proc import preprocess as md_preproc
+from libgmx import preprocess as md_preproc
 
 
 def expand_file_contents(contents):

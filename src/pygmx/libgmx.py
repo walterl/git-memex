@@ -1,10 +1,12 @@
-# This file is originally from Unmind, and adapted for use in git-memex.
+# The code in this file is originally from Unmind, and adapted for use in
+# git-memex.
 
+import logging
 import re
 from urllib.parse import unquote, urlparse
 
-from html_proc import get_title
-from net import fetch_url
+from bs4 import BeautifulSoup
+import requests
 
 
 RFC3986_PCT_ENCODED = r'%'
@@ -20,11 +22,51 @@ RX_WEBURL_STR = r'\b(https?://[\w-][\.\w-]+\b/?([{}{}{}{}]*)?)'.format(
 )
 RX_WEBURL = re.compile(RX_WEBURL_STR)
 
-
-def strip(content):
-    return content.strip() + '\n'
+log = logging.getLogger(__name__)
 
 
+### [networking]
+def fetch_url(url):
+    """Return contents from URL."""
+    try:
+        response = requests.get(url)
+    except Exception as exc:
+        log.debug('Failed to fetch title for URL %r:', exc, exc_info=True)
+        return None
+
+    return response.text
+
+
+### [html processing]
+def get_title(html):
+    if not html:
+        return None
+
+    if isinstance(html, BeautifulSoup):
+        soup = html
+    else:
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+        except Exception as exc:
+            log.debug(
+                'Failed to parse HTML response from URL %r:',
+                exc, exc_info=True
+            )
+            return None
+
+    title = soup.find('title')
+    if title:
+        return title.text.strip()
+
+    for heading in ('h1', 'h2', 'h3'):
+        title = soup.find(heading)
+        if title:
+            return title.text.strip()
+
+    return None
+
+
+### [markdown processing]
 def line_url_is_link(line, start, end):
     """Tests if the URL in `line` (from index `start` to `end`) is already a
     Markdown link. Defaults to `False`.
@@ -59,6 +101,10 @@ def urls_to_markdown_links(content):
 
         lines.append(finalize_line(line))
     return '\n'.join(lines)
+
+
+def strip(content):
+    return content.strip() + '\n'
 
 
 preprocessors = [strip, urls_to_markdown_links]
