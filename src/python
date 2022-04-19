@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 
 # Change the command below to point to a Python 3 binary that runs in an
-# environment with the following requirements:
-#
-# beautifulsoup4==4.8.0
-# html2text==2019.9.26
-# lxml==4.4.1
-# Markdown==3.1.1
-# requests==2.22.0
+# environment with the requirements from requirements.txt installed.
 
 # With virtualenv installed, the following commands will get you there:
 #
-# $ mkvirtualenv -p $(which python3) pygmx
-# $ pip install beautifulsoup4==4.8.0 html2text==2019.9.26 lxml==4.4.1 Markdown==3.1.1 requests==2.22.0
+# $ mkvirtualenv pygmx
+# $ pip install -r src/pygmx/requirements.txt
 #
-# That environment you just created should be at `$HOME/.virtualenvs/pygmx/`,
-# as in the command below:
+# The environment you just created should be at `$HOME/.virtualenvs/pygmx/`, as
+# in the command below:
 
 ${HOME}/.virtualenvs/pygmx/bin/python3 "$@"

@@ -1,0 +1,5 @@
+beautifulsoup4==4.11.1
+html2text==2020.1.16
+lxml==4.8.0
+Markdown==3.3.6
+requests==2.27.1

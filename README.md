@@ -22,8 +22,8 @@ done
 As per the instructions from `src/python`:
 
 ```bash
-mkvirtualenv -p $(which python3) pygmx
-pip install beautifulsoup4==4.8.0 html2text==2019.9.26 lxml==4.4.1 Markdown==3.1.1 requests==2.22.0
+mkvirtualenv pygmx
+pip install -r src/pygmx/requirements.txt
 ```
 
 If you want to use a different Python environment, be sure to update
