@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Change the command below to point to a Python 3 binary that runs in an
-# environment with the requirements from requirements.txt installed.
+# Change the command below to use a Python 3 binary that runs in an environment
+# with the requirements from requirements.txt installed.
 
 # With virtualenv installed, the following commands will get you there:
 #
