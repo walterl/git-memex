@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx_common.sh
+# shellcheck source=gmx_common.sh
+source "$(dirname "$(readlink -f "$0")")"/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) <src> <dest>"
+	e_info "Usage: $(basename "$0") <src> <dest>"
 	e_info
 	e_info "Rename <src> to <dest>."
 	e_info "Essentially just \`git mv <src> <dest> && git commit...\`"
@@ -22,7 +23,7 @@ do
 		h)	usage
 			exit 0
 			;;
-		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename "$0")"
 			exit 0
 			;;
 		*)	usage
@@ -31,7 +32,7 @@ do
 			;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
 if [ $# -ne 2 ]; then
 	usage
@@ -46,7 +47,7 @@ dest=$2
 
 check_file_exists "${src}" || check_dir_exists "${src}" || exit 1
 
-ensure_dir_exists $(dirname ${dest})
+ensure_dir_exists "$(dirname "${dest}")"
 
 rungit mv "${GMX_DIR}/${src}" "${GMX_DIR}/${dest}"
 rungit commit --quiet -m "Rename: ${src} → ${dest}"

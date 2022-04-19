@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx_common.sh
+# shellcheck source=gmx_common.sh
+source "$(dirname "$(readlink -f "$0")")"/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options] <filename>"
+	e_info "Usage: $(basename "$0") [options] <filename>"
 	e_info
 	e_info "Edit an existing git-memex database file."
 	e_info "The file's changed content will be automatically be expanded, and the file name updated based on the expanded content."
@@ -27,7 +28,7 @@ do
 		h)	usage
 			exit 0
 			;;
-		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename "$0")"
 			exit 0
 			;;
 		*)	usage
@@ -36,7 +37,7 @@ do
 			;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
 if [ $# -ne 1 ]; then
 	usage
@@ -84,6 +85,6 @@ if [[ "${new_filename}" != "${filename}" ]]; then
 fi
 
 rungit add "${filename}"
-rungit commit --quiet -m "Changed file: ${rel_filename}$(echo -e ${extended_commit_msg})"
+rungit commit --quiet -m "Changed file: ${rel_filename}$(echo -e "${extended_commit_msg}")"
 
 e_success "Updated file: ${rel_filename}${output_old_filename}"

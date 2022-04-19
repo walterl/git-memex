@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx_common.sh
+# shellcheck source=gmx_common.sh
+source "$(dirname "$(readlink -f "$0")")"/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options]"
+	e_info "Usage: $(basename "$0") [options]"
 	e_info
 	e_info "Initialize the current directory for use with git-memex."
 	e_info
@@ -21,7 +22,7 @@ do
 		h)	usage
 			exit 0
 			;;
-		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename "$0")"
 			exit 0
 			;;
 		*)	usage
@@ -30,11 +31,11 @@ do
 			;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
 if [ $# -gt 0 ]; then
 	usage
-	e_error "Unexpected arguments: $@"
+	e_error "Unexpected arguments: $*"
 	exit 1
 fi
 ### /PARSE COMMAND-LINE ARGS ###
@@ -46,10 +47,10 @@ if check_gmx_dir_initialized; then
 fi
 
 rungit init
-cp ${RES_DIR}/defaults/{README.md,.ignore} ${GMX_DIR}/
-rungit add -f ${GMX_DIR}/{README.md,.ignore}
+cp "${RES_DIR}/defaults/"{README.md,.ignore} "${GMX_DIR}/"
+rungit add -f "${GMX_DIR}/"{README.md,.ignore}
 rungit commit -m 'Initial commit with default README'
 echo
 e_success "Done."
 echo
-cat "${GMX_DIR}/README.md" | hilight
+hilight "${GMX_DIR}/README.md"

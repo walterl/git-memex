@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx_common.sh
+# shellcheck source=gmx_common.sh
+source "$(dirname "$(readlink -f "$0")")"/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options] <filename>"
+	e_info "Usage: $(basename "$0") [options] <filename>"
 	e_info
 	e_info "Preview first lines of specified file."
 	e_info
@@ -21,7 +22,7 @@ do
 		h)	usage
 			exit 0
 			;;
-		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename "$0")"
 			exit 0
 			;;
 		*)	usage
@@ -30,7 +31,7 @@ do
 			;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
 if [ $# -gt 0 ]; then
 	filename=$1

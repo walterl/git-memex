@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### BOOTSTRAP ###
 set -e
-source $(dirname $(readlink -f $0))/gmx_common.sh
+# shellcheck source=gmx_common.sh
+source "$(dirname "$(readlink -f "$0")")"/gmx_common.sh
 ### /BOOTSTRAP ###
 
 usage() {
-	e_info "Usage: $(basename $0) [options]"
+	e_info "Usage: $(basename "$0") [options]"
 	e_info
 	e_info "Commit all outstanding changes."
 	e_info
@@ -26,7 +27,7 @@ do
 		h)	usage
 			exit 0
 			;;
-		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename $0)"
+		v)	e_info "git-memex version ${GMX_VERSION} -- $(basename "$0")"
 			exit 0
 			;;
 		*)	usage
@@ -35,11 +36,11 @@ do
 			;;
 	esac
 done
-shift $(($OPTIND-1))
+shift $((OPTIND-1))
 
 if [ $# -gt 0 ]; then
 	usage
-	e_error "Unexpected arguments: $@"
+	e_error "Unexpected arguments: $*"
 	exit 1
 fi
 ### /PARSE COMMAND-LINE ARGS ###
@@ -56,7 +57,7 @@ rungit status -s  # Run it again to get git's colorful goodness :)
 
 if [ -n "${review_changes}" ]; then
 	e_header "Is the above changes OK? (type \"yes\")"
-	read answer
+	read -r answer
 
 	if [[ "${answer}" != "yes" ]]; then
 		e_arrow "Unstaging changes and aborting."

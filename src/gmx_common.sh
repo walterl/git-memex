@@ -5,23 +5,23 @@ set -e
 ### /BOOTSTRAP ###
 
 ### UTILITY FUNCTIONS ###
-e_header()   { echo -e "\n\033[1m$@\033[0m"; }
-e_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }
-e_error()    { echo -e " \033[1;31m✖\033[0m  $@"; }
-e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
-e_info()     { echo -e " \033[1;34mⓘ\033[0m  $@"; }
+e_header()   { echo -e "\n\033[1m$*\033[0m"; }
+e_success()  { echo -e " \033[1;32m✔\033[0m  $*"; }
+e_error()    { echo -e " \033[1;31m✖\033[0m  $*"; }
+e_arrow()    { echo -e " \033[1;33m➜\033[0m  $*"; }
+e_info()     { echo -e " \033[1;34mⓘ\033[0m  $*"; }
 e_debug() {
 	if [ -n "${GMX_DEBUG}" ]; then
-		echo -e " \033[1;33mﴫ\033[0m  $@"
+		echo -e " \033[1;33mﴫ\033[0m  $*"
 	fi
 }
 
 find_text_editor() {
 	editor=${FCEDIT:-${VISUAL:-${EDITOR}}}
-	[ -n "${editor}" ] && echo ${editor} && return
+	[ -n "${editor}" ] && echo "${editor}" && return
 
 	for editor in sensible-editor vim vi nano; do
-		command -v ${editor} > /dev/null && echo ${editor} && return
+		command -v ${editor} > /dev/null && echo "${editor}" && return
 	done
 
 	e_error "Unable to find a text editor. Set \$EDITOR to your editor command."
@@ -30,15 +30,17 @@ find_text_editor() {
 ### /UTILITY FUNCTIONS ###
 
 ### ENV ###
-GMX_VERSION="0.1.0"
 GMX_DIR=$PWD
+GMX_VERSION="0.1.0"
 TEXT_EDITOR=$(find_text_editor)
 HAS_FZF=$(command -v fzf > /dev/null && echo 1)
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
-SCRIPT_DIR=$(dirname $(readlink -f "$0"))
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
 PYTHON_CMD="${SCRIPT_DIR}/python"
 RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
+
+export GMX_DIR GMX_VERSION TEXT_EDITOR HAS_FZF HAS_PYGMENTIZE SCRIPT_DIR PY_SCRIPT_DIR PYTHON_CMD RES_DIR
 ### /ENV ###
 
 ### MAIN LIBRARY ###
@@ -70,22 +72,22 @@ check_dir_exists() {
 }
 
 check_gmx_dir_initialized() {
-	[ -d ${GMX_DIR:-${PWD}}/.git ] && return 0
+	[ -d "${GMX_DIR:-${PWD}}/.git" ] && return 0
 	return 1
 }
 
 expand_file_content() {
-	${PYTHON_CMD} ${PY_SCRIPT_DIR}/expand_content.py "$@"
+	${PYTHON_CMD} "${PY_SCRIPT_DIR}/expand_content.py" "$@"
 }
 
 compute_filename() {
-	${PYTHON_CMD} ${PY_SCRIPT_DIR}/filename_from_content.py "$@"
+	${PYTHON_CMD} "${PY_SCRIPT_DIR}/filename_from_content.py" "$@"
 }
 
 ensure_dir_exists() {
 	dir=$1
 
-	[ -d ${dir} ] || mkdir -p ${dir}
+	[ -d "${dir}" ] || mkdir -p "${dir}"
 }
 
 get_unique_filename() {
@@ -101,7 +103,7 @@ get_unique_filename() {
 		filename="${base_filename}__${i}.${extension}"
 	fi
 
-	echo ${filename}
+	echo "${filename}"
 }
 
 hilight() {
@@ -110,7 +112,7 @@ hilight() {
 		arg=""
 	fi
 
-	if [ -n ${HAS_PYGMENTIZE} ]; then
+	if [ -n "${HAS_PYGMENTIZE}" ]; then
 		pygmentize -f console256 -l md ${arg}
 	else
 		cat ${arg}
@@ -118,9 +120,9 @@ hilight() {
 }
 
 make_temp_file() {
-	mktemp --suffix=$1 --tmpdir="${GMX_DIR}/$2" "new-file.XXXXXXXXXX"
+	mktemp --suffix="$1" --tmpdir="${GMX_DIR}/$2" "new-file.XXXXXXXXXX"
 }
 
 rungit() {
-	git -C ${GMX_DIR} "$@"
+	git -C "${GMX_DIR}" "$@"
 }
