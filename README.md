@@ -212,3 +212,8 @@ A hybrid approach can leverage the best parts of different languages, for exampl
         output/edit selected file.
     * I.e. extend `gmx-find`
   * [ ] Fourth pass: throw in a full-text search engine into the mix.
+
+
+## License
+
+[![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](./LICENSE.md "GPLv3")
