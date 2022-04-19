@@ -1,7 +1,13 @@
 # `git-memex` - Your git-based memory extension
 
-git-memex is a simple, file-based, git backed personal knowledge base (PKB).
+git-memex is a simple, git backed personal knowledge base (PKB).
 
+It's a **prototype** consisting of a handful of Bash scripts that simplifies
+management of a git repo, garnished with Python scripts for automating common
+tasks.
+
+The source code is very simple, and users are encouraged to peak at and tinker
+with it.
 
 ## Installation
 
@@ -33,6 +39,9 @@ If you want to use a different Python environment, be sure to update
 
 
 ## Usage
+
+All git-memex commands are prefixed with `gmx-`, and will print usage
+information when called with `-h`.
 
 ### Initialize directory for git-memex
 Run `gmx-init` in the directory that you would like to store your git-memex
@@ -110,7 +119,7 @@ manual changes you may desire.
 
 ### Searching for a file
 
-`gmx-find` allows you to fuzzy find a file by name (it wraps [`fzf`](https://github.com/junegunn/fzf)),
+`gmx-find` allows you to fuzzy find a file by name (it wraps [fzf](https://github.com/junegunn/fzf)),
 displaying previews for highlighted files.
 
 Since all data in a git-memex database are just text in normal files in a git
@@ -172,6 +181,7 @@ See _Development Roadmap_ below for more information.
 * [X] Test implementation for a while
 * [X] Add utility to convert rich text (HTML) on the clipboard, to Markdown text.
   * Hooked together `xclip` and `pandoc` in a [vim mapping](https://github.com/walterl/dotfiles/blob/2db52c8e6c4140f17160535c6e906f5042f7ee3a/_config/nvim/ftplugin/markdown.vim#L18-L21=).
+* [ ] Move on to phase 3: replace prototype with production-ready code.
 
 
 ## Development roadmap
@@ -208,10 +218,136 @@ A hybrid approach can leverage the best parts of different languages, for exampl
   * [ ] First pass: Use `grep`, `git grep`, `ag`, or anything else the user wants.
   * [ ] Second pass: Combine the good bits of the commands above into a
         `gmx-search` command.
-  * [ ] Third pass: Connect some "good" grep program to `fzf`, and
-        output/edit selected file.
+  * [ ] Third pass: Connect some "good" grep program to fzf, and output/edit
+        selected file.
     * I.e. extend `gmx-find`
   * [ ] Fourth pass: throw in a full-text search engine into the mix.
+
+
+## Background
+
+After several years of thinking about and tinkering with various PKB solutions,
+git-memex implements the features I think are most important. Those features
+are informed by the core values of _user freedom_, and _simplicity_, discussed
+in more detail below.
+
+At the end of the day git-memex is just a set of tools for managing a git
+repository of (mostly) Markdown text files, with the git intricacies tucked
+away, and a few time saving scripts sprinkled on top.
+
+### User freedom
+#### Privacy
+When it comes to knowledge bases, it's all about the data. When it comes to
+_personal_ data, it's all about users' control over their data. That is to say,
+_privacy_.
+
+git-memex is uncompromising in giving users complete control over their data.
+That means no opaque service layer, no proprietary data formats, no stewardship
+of users' data by third parties, and no unauthorised or implicit access to
+users' data.
+
+By default at least. It is always the user's prerogative to give up these data
+freedoms as and when they see fit.
+
+git-memex achieves this goal not only by being built on [free software](https://www.gnu.org/philosophy/free-sw.html), but by
+_being_ [free software](./LICENCSE.md).
+
+#### Portability
+Also implied by _user freedom_, is the ability for users to work with their
+data as and where they see fit. This informs much of git-memex's feature
+design, not least of which the decision to support encoding of data as Markdown
+text files.
+
+Plain text is as ubiquitous a format as they come, with text editors available
+for every computing platform. It's everywhere, and it's here to stay.
+
+It's also easy to record changes (with git) in a space efficient manner.
+
+Markdown moves the needle just enough towards the "richer" end of the scale to
+not get in the way, while adding many useful features. It adds a critically
+important feature necessary in a PKB: the ability to link to other data.
+
+While Markdown is the first and (so far) only format officially supported by
+git-memex, there is nothing preventing a user from adding non-Markdown files.
+
+### Simplicity
+
+#### Small scope
+git-memex focuses intensively on its small scope, and aggressively contracts
+out any work it can to other existing software. That way it remains small,
+simple, and easy to change.
+
+For example, rather than creating a TUI or GUI for accepting user input, we use
+the user's configured `$EDITOR`.
+
+Want to search through your database? Use `grep`.
+
+Want to fuzzy find a file in your database? Use [fzf](https://github.com/junegunn/fzf) (as `gmx-find` does).
+
+Want to keep a central, offsite copy of your database? `git push` it.
+
+Want to sync your database to your phone? Use [Syncthing](https://syncthing.net). Or [Nextcloud](https://nextcloud.com).
+Or whatever else you're already using.
+
+git-memex aims to support the user in using their PKBs with existing software,
+rather than duplicating or hard-coding functionality in git-memex.
+
+#### Simple CLI
+The focus on simplicity also informs the simple nature of the `gmx-*` commands.
+It tries to abstract away all the nitty gritty details of the underlying git
+repository.
+
+#### Files and directories
+Simplicity also means working with what users already know. Users know files
+and directories, and have become accustomed to working with them.
+
+Furthermore the [_user-subjective approach_](https://en.wikipedia.org/wiki/User-subjective_approach) supports allowing users to create
+their own hierarchy for encoding project classification, importance and
+context.
+
+git-memex should come with guidelines for how to effectively structure PKB
+data, but that is not yet implemented. (Mostly due to my ignorance on the
+topic. Please let me know if you have any pointers!)
+
+
+## Tips and tricks
+
+### Easier access to `gmx-find`
+
+Create a symlink to `gmx-find` in your git-memex repository, to run it more
+easily, without polluting your environment with a contextless script/alias.
+
+```bash
+cd my_db
+ln -s $(which gmx-find) ./q
+# Now you can run gmx-find as ./q
+./q
+```
+
+### Use proxy to fetch page contents
+
+Web pages are fetched with the [requests library](https://docs.python-requests.org/en/latest/), which respects `$http_proxy`
+and `$https_proxy` environmental variables. 
+
+```bash
+echo 'http_proxy=socks5h://localhost:9050' > .env
+```
+
+_Note_: To use a SOCKS proxy server (e.g. Tor) ensure that [`requests[socks]`](https://docs.python-requests.org/en/latest/user/advanced/#socks) is
+installed in your `pygmx` virtual environment.
+
+### Paste rich text as Markdown
+
+You'll often want to paste text into your PKB, copied from a web page. But how
+can you convert your copied rich text to Markdown? [xclip](https://github.com/astrand/xclip) and [Pandoc](https://pandoc.org/) has you
+covered!
+
+```bash
+xclip -selection clipboard -o -t text/html | pandoc -f html -t markdown --wrap=none 2> /dev/null
+```
+
+If you're a Vim user, you can hook that up to a custom mapping, like I did
+[here](https://github.com/walterl/dotfiles/blob/818a49bfbc8695fda42dfbf48aec223b6fe0e19f/_config/nvim/ftplugin/markdown.vim#L20=).
 
 
 ## License
