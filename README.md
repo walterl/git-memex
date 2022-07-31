@@ -200,6 +200,8 @@ See _Development Roadmap_ below for more information.
 * [X] Test implementation for a while
 * [X] Add utility to convert rich text (HTML) on the clipboard, to Markdown text.
   * Hooked together `xclip` and `pandoc` in a [vim mapping](https://github.com/walterl/dotfiles/blob/2db52c8e6c4140f17160535c6e906f5042f7ee3a/_config/nvim/ftplugin/markdown.vim#L18-L21=).
+* [ ] `git-add`: Allow file name to be specified as CLI argument, in stead of computing from content.
+* [ ] `gmx-edit`: Add option to avoid renaming changed file.
 * [ ] Move on to phase 3: replace prototype with production-ready code.
 
 
