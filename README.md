@@ -218,7 +218,7 @@ language agnostic.
 
 A hybrid approach can leverage the best parts of different languages, for example:
 
-* Use Python to create a clear and simple CLI, which (system) calls other components accordingly.
+* Use Python to create a clear and simple CLI, which dispatches to other components.
 * Use Go for performance sensitive tasks like searching.
 * Use simple bash scripts where nothing more advanced is required.
 
@@ -337,7 +337,9 @@ ln -s $(which gmx-find) ./q
 ### Use proxy to fetch page contents
 
 Web pages are fetched with the [requests library](https://docs.python-requests.org/en/latest/), which respects `$http_proxy`
-and `$https_proxy` environmental variables. 
+and `$https_proxy` environmental variables. Together with something like [direnv](https://github.com/direnv/direnv)
+or [dotenv](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/dotenv), you can configure a proxy for when you're in your git-memex
+repository directory.
 
 ```bash
 echo 'http_proxy=socks5h://localhost:9050' > .env
