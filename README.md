@@ -140,6 +140,15 @@ repository, you can use any external utilities for searching:
 * While not implemented in git-memex, any full-text search engine can be used
   to index and search the repository contents.
 
+### Full-text search
+
+Run `gmx-search -u` to create/update a full-text search index of all Markdown
+files in your database. That index can be searched with
+`gmx-search my search terms`.
+
+`gmx-search` requires [washer](https://github.com/fiatjaf/washer) to be installed. Run `pip install --user washer` to 
+install it.
+
 ### Moving/renaming a file
 
 `gmx-mv <src> <dest>` wraps `git mv <src> <dest>`.
@@ -333,6 +342,8 @@ ln -s $(which gmx-find) ./q
 # Now you can run gmx-find as ./q
 ./q
 ```
+
+The same can be done for `gmx-search`.
 
 ### Use proxy to fetch page contents
 

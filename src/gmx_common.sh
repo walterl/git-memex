@@ -31,16 +31,18 @@ find_text_editor() {
 
 ### ENV ###
 GMX_DIR=$PWD
-GMX_VERSION="0.1.0"
+GMX_VERSION="0.1.1"
 TEXT_EDITOR=$(find_text_editor)
 HAS_FZF=$(command -v fzf > /dev/null && echo 1 || echo "")
 HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1 || echo "")
+HAS_WASHER=$(command -v washer > /dev/null && echo 1 || echo "")
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
 PYTHON_CMD="${SCRIPT_DIR}/python"
 RES_DIR=$(readlink -f "${SCRIPT_DIR}/../res")
+[ -n "$HAS_WASHER" ] && WASHER_INDEX="${GMX_DIR}/.dbindex" || WASHER_INDEX=
 
-export GMX_DIR GMX_VERSION TEXT_EDITOR HAS_FZF HAS_PYGMENTIZE SCRIPT_DIR PY_SCRIPT_DIR PYTHON_CMD RES_DIR
+export GMX_DIR GMX_VERSION TEXT_EDITOR HAS_FZF HAS_PYGMENTIZE HAS_WASHER SCRIPT_DIR PY_SCRIPT_DIR PYTHON_CMD RES_DIR WASHER_INDEX
 ### /ENV ###
 
 ### MAIN LIBRARY ###
