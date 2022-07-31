@@ -43,6 +43,7 @@ fi
 ### MAIN ###
 if [ -z "${HAS_FZF}" ]; then
 	e_error "fzf is required but not found."
+	exit 1
 fi
 
 filename=$(fzf --preview="gmx-preview {}")

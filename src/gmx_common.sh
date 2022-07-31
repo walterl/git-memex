@@ -33,8 +33,8 @@ find_text_editor() {
 GMX_DIR=$PWD
 GMX_VERSION="0.1.0"
 TEXT_EDITOR=$(find_text_editor)
-HAS_FZF=$(command -v fzf > /dev/null && echo 1)
-HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1)
+HAS_FZF=$(command -v fzf > /dev/null && echo 1 || echo "")
+HAS_PYGMENTIZE=$(command -v pygmentize > /dev/null && echo 1 || echo "")
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 PY_SCRIPT_DIR="${SCRIPT_DIR}/pygmx"
 PYTHON_CMD="${SCRIPT_DIR}/python"
