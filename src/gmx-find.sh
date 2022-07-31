@@ -46,4 +46,4 @@ if [ -z "${HAS_FZF}" ]; then
 fi
 
 filename=$(fzf --preview="gmx-preview {}")
-[ -n "$filename" ] && gmx-edit "$filename"
+[ -n "$filename" ] && gmx-edit -r "$filename"
