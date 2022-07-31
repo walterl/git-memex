@@ -12,18 +12,18 @@ usage() {
 	e_info "The file's changed content will be automatically be expanded, and the file name updated based on the expanded content."
 	e_info
 	e_info "Options:"
-	e_info "-r    Review expanded content before committing."
+	e_info "-r    Don't review expanded content before committing."
 	e_info "-h    Display this message"
 	e_info "-v    Display script version"
 }
 
 ### PARSE COMMAND-LINE ARGS ###
-review_changes=
+review_changes=1
 
 while getopts ":rhv" opt
 do
 	case $opt in
-		r)	review_changes=1
+		r)	review_changes=
 			;;
 		h)	usage
 			exit 0

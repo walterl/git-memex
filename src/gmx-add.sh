@@ -12,19 +12,19 @@ usage() {
 	e_info
 	e_info "Options:"
 	e_info "<dir>      Directory in which to create the new file."
-	e_info "-r         Review expanded content before committing."
+	e_info "-r         Don't review expanded content before committing."
 	e_info "-h         Display this message"
 	e_info "-v         Display script version"
 }
 
 ### PARSE COMMAND-LINE ARGS ###
 output_dir=
-review_changes=
+review_changes=1
 
 while getopts ":rd:hv" opt
 do
 	case $opt in
-		r)	review_changes=1
+		r)	review_changes=
 			;;
 		h)	usage
 			exit 0

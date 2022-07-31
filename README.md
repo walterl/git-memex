@@ -71,10 +71,10 @@ make it easier to find in the future. Do so by specifying a directory with the
 `<dir>` command-line option. The new file will be added in the specified
 directory. The directory is created if it doesn't exist.
 
-If the `-r` command-line flag was given, your editor will be opened a second
-time, after content expansion but before the file name is determined. This
-affords you the opportunity to **r**eview the expanded content, and apply any
-manual changes you may desire.
+Unless the `-r` command-line flag was given, your editor will be opened a
+second time, after content expansion but before the file name is determined.
+This affords you the opportunity to **r**eview the expanded content, and apply
+any manual changes you may desire.
 
 The functionality is optimized for uses cases like the following. Run
 `gmx-add privacy/software` and add the following content:
@@ -85,7 +85,17 @@ The functionality is optimized for uses cases like the following. Run
 Secure instant messaging app for desktop and mobile.
 ```
 
-You should see the following output:
+Your editor should open after a short delay, containing the following content:
+
+```markdown
+# [Signal >> Home](https://signal.org/)
+
+Secure instant messaging app for desktop and mobile.
+```
+
+Notice how the title has been replaced with a Markdown link. Close your editor.
+
+You should then see the following output:
 
 ```
  ✔  New file: privacy/software/Signal >> Home.md
@@ -112,10 +122,10 @@ saving the file, the file's content is expanded just like in `gmx-add`, and the
 file name updated according to the new title. If the file name has changed, the
 file will be renamed.
 
-If the `-r` command-line flag was given, your editor will be opened a second
-time, after content expansion but before the file name is determined. This
-affords you the opportunity to **r**eview the expanded content, and apply any
-manual changes you may desire.
+Unless the `-r` command-line flag was given, your editor will be opened a
+second time, after content expansion but before the file name is determined.
+This affords you the opportunity to **r**eview the expanded content, and apply
+any manual changes you may desire.
 
 ### Searching for a file
 
@@ -148,8 +158,8 @@ If you want to quickly and simply commit all uncommitted changes, the
 `gmx-commit` command will do so after displaying a short change summary (`git
 status -s`).
 
-If you specify the `-r` (_review_) command-line flag, you will be prompted for
-confirmation before the commit is performed.
+Unless you specify the `-r` (_review_) command-line flag, you will be prompted
+for confirmation before the commit is performed.
 
 
 ## Debugging
