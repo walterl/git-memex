@@ -21,7 +21,7 @@ usage() {
 output_dir=
 review_changes=1
 
-while getopts ":rd:hv" opt
+while getopts ":rhv" opt
 do
 	case $opt in
 		r)	review_changes=
