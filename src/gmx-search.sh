@@ -59,6 +59,9 @@ if [ -n "$update_index" ]; then
 		git add .gitignore
 		git commit -m 'Git-ignore full-text search index'
 	fi
+elif [ ! -d "$WASHER_INDEX" ]; then
+	e_error "Database not yet indexed. Run:"
+	e_error "$ ${0%.sh} -u"
 else
 	washer --indexdir "$WASHER_INDEX" search "$search_terms"
 fi
