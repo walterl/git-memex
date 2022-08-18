@@ -72,6 +72,13 @@ def line_url_is_link(line, start, end):
     Markdown link. Defaults to `False`.
     """
     try:
+        # Check for <schema:location>-style links
+        if (line[start - 1], line[end]) == ('<', '>'):
+            return True
+    except IndexError:
+        pass
+
+    try:
         return (line[start - 1], line[end]) == ('(', ')') and \
                 line[start - 2] == ']'
     except IndexError:
