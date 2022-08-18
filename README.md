@@ -187,22 +187,25 @@ using git-memex for my PKB since September 2019.
 See _Development Roadmap_ below for more information.
 
 ### TODO
-* [X] Add `gmx-init` command.
-* [X] Add `gmx-add` command.
-* [X] Add `gmx-mv` command to allow moving/renaming of files.
-* [X] Add `gmx-rm` command to removal of files.
-* [X] Add `gmx-edit` command to manage editing of managed files.
-* [X] Add `gmx-commit` command to commit any manual changes.
-* [X] `gmx-add`: Add `-d` switch to specify directory for new entry.
-* [X] `gmx-add`: Add `-r` switch for reviewing changes (if any) of content expansion.
-* [X] `gmx-edit`: Add `-r` switch for reviewing changes (if any) of content expansion.
-* [X] Migrate required Unmind code to git-memex repo.
-* [X] Test implementation for a while
-* [X] Add utility to convert rich text (HTML) on the clipboard, to Markdown text.
-  * Hooked together `xclip` and `pandoc` in a [vim mapping](https://github.com/walterl/dotfiles/blob/2db52c8e6c4140f17160535c6e906f5042f7ee3a/_config/nvim/ftplugin/markdown.vim#L18-L21=).
-* [ ] `git-add`: Allow file name to be specified as CLI argument, in stead of computing from content.
-* [ ] `gmx-edit`: Add option to avoid renaming changed file.
-* [ ] Move on to phase 3: replace prototype with production-ready code.
+- [X] Add `gmx-init` command.
+- [X] Add `gmx-add` command.
+- [X] Add `gmx-mv` command to allow moving/renaming of files.
+- [X] Add `gmx-rm` command to removal of files.
+- [X] Add `gmx-edit` command to manage editing of managed files.
+- [X] Add `gmx-commit` command to commit any manual changes.
+- [X] `gmx-add`: Add `-d` switch to specify directory for new entry.
+- [X] `gmx-add`: Add `-r` switch for reviewing changes (if any) of content expansion.
+- [X] `gmx-edit`: Add `-r` switch for reviewing changes (if any) of content expansion.
+- [X] Migrate required Unmind code to git-memex repo.
+- [X] Test implementation for a while
+- [X] Add utility to convert rich text (HTML) on the clipboard, to Markdown text.
+  - Hooked together `xclip` and `pandoc` in a [vim mapping](https://github.com/walterl/dotfiles/blob/2db52c8e6c4140f17160535c6e906f5042f7ee3a/_config/nvim/ftplugin/markdown.vim#L18-L21=).
+- [ ] Support sub-db's created by symlinking to a sub-directory.
+  - Doing `ln /my/db/some/topic ./subdb` and working in `subdb` should "just
+    work", committing changes to the root db.
+- [ ] `git-add`: Allow file name to be specified as CLI argument, in stead of computing from content.
+- [ ] `gmx-edit`: Add option to avoid renaming changed file.
+- [ ] Move on to phase 3: replace prototype with production-ready code.
 
 
 ## Development roadmap
