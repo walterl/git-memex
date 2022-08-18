@@ -73,7 +73,7 @@ def line_url_is_link(line, start, end):
     """
     try:
         return (line[start - 1], line[end]) == ('(', ')') and \
-                line[start - 2] == ']' and '[' in line[:start - 2]
+                line[start - 2] == ']'
     except IndexError:
         return False
 
