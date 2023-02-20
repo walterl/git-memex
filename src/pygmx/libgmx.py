@@ -86,16 +86,20 @@ def line_url_is_link(line, start, end):
 
 
 def urls_to_markdown_links(content):
+    in_fenced_code_block = False
     lines = []
     for line in content.split('\n'):
-        finalize_line = lambda l: l
-        if line.startswith('> '):
-            line = line[2:]
-            finalize_line = lambda l: '> {}'.format(l)
+        if line.startswith('```') or line.startswith('~~~'):
+            in_fenced_code_block = not in_fenced_code_block
 
-        if line.startswith('    '):
+        if line.startswith('    ') or in_fenced_code_block:
             # Skip blockquoted lines
-            lines.append(finalize_line(line))
+            lines.append(line)
+            continue
+
+        if re.match(r'^\s*> ', line):
+            # Skip quoted text
+            lines.append(line)
             continue
 
         for match in reversed(list(RX_WEBURL.finditer(line))):
@@ -106,7 +110,7 @@ def urls_to_markdown_links(content):
             before, after = line[:match.start()], line[match.end():]
             line = '{}{}{}'.format(before, make_link(url), after)
 
-        lines.append(finalize_line(line))
+        lines.append(line)
     return '\n'.join(lines)
 
 
