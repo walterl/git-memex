@@ -52,7 +52,7 @@ if [ -z "${HAS_WASHER}" ]; then
 fi
 
 if [ -n "$update_index" ]; then
-	find "${GMX_DIR}" -type f -iname '*.md' -print0 | xargs -0 washer --indexdir "$WASHER_INDEX" index --lang en --overwrite -- 
+	find "${GMX_DIR}" -type f -iname '*.md' -print0 | xargs -0 --max-chars=2000000 washer --indexdir "$WASHER_INDEX" index --lang en --overwrite -- 
 
 	if ! grep .dbindex .gitignore &> /dev/null; then
 		echo .dbindex >> .gitignore
