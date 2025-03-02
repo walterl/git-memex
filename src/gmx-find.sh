@@ -46,5 +46,5 @@ if [ -z "${HAS_FZF}" ]; then
 	exit 1
 fi
 
-filename=$(fzf --preview="gmx-preview {}")
+filename=$(fzf --walker=file,follow --preview="gmx-preview {}")
 [ -n "$filename" ] && gmx-edit "$filename"
